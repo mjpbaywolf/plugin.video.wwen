@@ -15,5 +15,6 @@
     <disclaimer lang="en">You need a valid WWE Network subscription for this addon to work.</disclaimer>
     <language>en</language>
     <platform>all</platform>
+    <source>https://github.com/mjpbaywolf/plugin.video.wwen</source>
   </extension>
 </addon>
