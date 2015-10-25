@@ -19,9 +19,10 @@ addon_handle = int(sys.argv[1])
 args = urlparse.parse_qs(sys.argv[2][1:])
 
 xbmcplugin.setContent(addon_handle, 'tvshows')
+if addon.getSetting('emailaddress') == '' or addon.getSetting('password') == '':
+	xbmcgui.Dialog().notification('Error occurred', 'You need to enter your WWE Network credentials in the settings before using')
 
 wwe_auth = wwen_auth2.WWESession(addon.getSetting('emailaddress'), addon.getSetting('password'), cookie_file)
-
 
 def build_url(query):
     return base_url + '?' + urllib.urlencode(query)
@@ -33,11 +34,12 @@ def get_list_item(network_item):
     liz.setInfo(
         type="Video",
         infoLabels={
-            "Title": network_item.title,
-            "Plot": network_item.description,
-            "Genre": 'Wrestling',
-            "Year": network_item.year,
-            "Duration": network_item.duration})
+            "title": network_item.title,
+            "plot": network_item.description,
+            "genre": network_item.genre,
+            "year": network_item.year,
+            "duration": network_item.duration,
+			"aired": network_item.air_date})
 
     liz.setProperty("Fanart_Image", network_item.fan_art)
 
