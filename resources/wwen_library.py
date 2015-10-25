@@ -16,8 +16,9 @@ class NetworkItem(object):
     air_date = "2008-12-07"
     year = 0
     duration = ""
+    genre = "Wrestling"
 
-    def __init__(self, item_type='episode', name='', title='', description='', icon='', thumbnail='', fan_art='', id='', air_date='', year=0, duration=''):
+    def __init__(self, item_type='episode', name='', title='', description='', icon='', thumbnail='', fan_art='', id='', air_date='', year=0, duration='', genre='Wrestling'):
         self.item_type = item_type
         self.name = name
         self.title = title
@@ -29,6 +30,7 @@ class NetworkItem(object):
         self.air_date = air_date
         self.year = year
         self.duration = duration
+        self.genre = genre
 
 
 def get_live_stream():
@@ -39,7 +41,7 @@ def get_live_stream():
     for i in json_object['events']:
         if i['live_media_state'] == 'MEDIA_ON':
             live_stream.item_type = 'live'
-            live_stream.name = 'Watch Live'
+            live_stream.name = 'Watch Live - ' + i['title']
             live_stream.id = i['media_playback_ids']['live']['content_id']
             live_stream.icon = i['thumbnail_scenarios']['2']
             live_stream.thumbnail = i['thumbnail_scenarios']['60']
@@ -47,7 +49,8 @@ def get_live_stream():
             live_stream.description = i['big_blurb']
             live_stream.year = i['dates_and_times']['air_date_gmt'][0:4]
             live_stream.title = i['title']
-            live_stream.duration = get_length_in_minutes(i['duration'])
+            live_stream.duration = get_length_in_seconds(i['duration'])
+            live_stream.genre = i['genre']
             break
 
     return live_stream
@@ -160,15 +163,16 @@ def get_episodes(show):
                         j['bigblurb'],
                         j['thumbnails']['124x70']['src'],
                         j['thumbnails']['400x224']['src'],
-                        i['thumbnails']['1280x720']['src'] if '1280x720' in i else '',
+                        j['thumbnails']['1280x720']['src'] if '1280x720' in i else '',
                         j['itemTags']['media_playback_id'][0],
                         j['userDate'],
                         j['userDate'][0:4],
-                        get_length_in_minutes(j['duration'])
+                        get_length_in_seconds(j['duration']),
+                        j['genre']
                     )
                 )
 
-    return episodes
+    return sorted(episodes, key=lambda x: x.air_date)
 
 
 def get_request(url, data=None, headers=None):
@@ -191,8 +195,9 @@ def get_request(url, data=None, headers=None):
         return
 
 
-def get_length_in_minutes(length):
+def get_length_in_seconds(length):
     l_split = length.split(':')
-    minutes = (int(l_split[0])) * 60
-    minutes += int(l_split[1])
-    return minutes
+    seconds = (int(l_split[0])) * 60 * 60
+    seconds = seconds + int(l_split[1]) * 60
+    seconds = seconds + int(l_split[2])
+    return seconds
