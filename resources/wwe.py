@@ -229,10 +229,10 @@ class Network:
                 temp.show_name = i['show_name']
                 temp.name = i['headline']
                 temp.title = i['headline']
-                temp.description = i['notes']
-                temp.icon = i['thumbnail7']
-                temp.thumbnail = i['thumbnail35']
-                temp.fan_art = i['thumbnail67']
+                temp.description = i['notes'] if 'notes' in i else ''
+                temp.icon = i['thumbnail7'] if 'thumbnail17' in i else ''
+                temp.thumbnail = i['thumbnail35'] if 'thumbnail35' in i else ''
+                temp.fan_art = i['thumbnail67'] if 'thumbnail67' in i else ''
                 temp.media_id = i['media_playback_id_key']
                 temp.air_date = i['air_date']
                 temp.duration = self.get_length_in_seconds(i['duration'])

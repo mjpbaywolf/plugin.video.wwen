@@ -78,12 +78,10 @@ cookie_exp_date = addon.getSetting('cookie_exp_date')
 if cookie_exp_date != '' and pickle.loads(cookie_exp_date) > datetime.now():
     cookies = addon.getSetting('cookies')
     wwe_network.set_cookies(pickle.loads(cookies))
-    xbmcgui.Dialog().notification('Cookie', 'Not Expired')
 else:
     wwe_network.login()
     addon.setSetting('cookies', pickle.dumps(wwe_network.cookies))
     addon.setSetting('cookie_exp_date', pickle.dumps(datetime.now() + timedelta(days=1)))
-    xbmcgui.Dialog().notification('Cookie', 'Expired')
 
 
 mode = args.get('mode', None)
@@ -128,6 +126,8 @@ if mode is None:
     my_account.setArt({'fanart': addon.getAddonInfo('fanart')})
     my_account_url = build_url({'mode': 'my_account'})
     xbmcplugin.addDirectoryItem(handle=addon_handle, url=my_account_url, listitem=my_account, isFolder=True)
+	
+    xbmcplugin.endOfDirectory(addon_handle, cacheToDisc=False)
 
 elif mode[0] == 'recommended':
     xbmcplugin.setContent(addon_handle, 'episodes')
@@ -136,6 +136,7 @@ elif mode[0] == 'recommended':
         li = get_list_item(n)
         url = build_url({'mode': n.item_type, "id": n.media_id})
         xbmcplugin.addDirectoryItem(handle=addon_handle, url=url, listitem=li)
+    xbmcplugin.endOfDirectory(addon_handle, cacheToDisc=False)
 
 elif mode[0] == 'on_demand':
     xbmcplugin.setContent(addon_handle, 'tvshows')
@@ -144,6 +145,7 @@ elif mode[0] == 'on_demand':
         li = get_list_item(n)
         url = build_url({'mode': n.item_type, "id": n.media_id})
         xbmcplugin.addDirectoryItem(handle=addon_handle, url=url, listitem=li, isFolder=True)
+    xbmcplugin.endOfDirectory(addon_handle)
 
 elif mode[0] == 'episodes_watchlist':
     xbmcplugin.setContent(addon_handle, 'episodes')
@@ -153,6 +155,7 @@ elif mode[0] == 'episodes_watchlist':
         li = get_list_item(n)
         url = build_url({'mode': n.item_type, "id": n.media_id})
         xbmcplugin.addDirectoryItem(handle=addon_handle, url=url, listitem=li)
+    xbmcplugin.endOfDirectory(addon_handle, cacheToDisc=False)
 
 elif mode[0] == 'add_episode_watchlist':
     if wwe_network.add_episode_to_watchlist(args['id'][0]):
@@ -174,6 +177,7 @@ elif mode[0] == 'series_watchlist':
         li = get_list_item(n)
         url = build_url({'mode': n.item_type, "id": n.media_id})
         xbmcplugin.addDirectoryItem(handle=addon_handle, url=url, listitem=li, isFolder=True)
+    xbmcplugin.endOfDirectory(addon_handle, cacheToDisc=False)
 
 elif mode[0] == 'add_series_watchlist':
     if wwe_network.add_series_to_watchlist(args['id'][0]):
@@ -196,6 +200,7 @@ elif mode[0] == 'search':
             li = get_list_item(s)
             url = build_url({'mode': s.item_type, "id": s.media_id})
             xbmcplugin.addDirectoryItem(handle=addon_handle, url=url, listitem=li)
+        xbmcplugin.endOfDirectory(addon_handle, cacheToDisc=False)
 
 elif mode[0] == 'my_account':
     addon.openSettings()
@@ -208,6 +213,7 @@ elif mode[0] == 'section':
         li = get_list_item(n)
         url = build_url({'mode': n.item_type, "id": n.media_id})
         xbmcplugin.addDirectoryItem(handle=addon_handle, url=url, listitem=li, isFolder=True)
+    xbmcplugin.endOfDirectory(addon_handle)
 
 elif mode[0] == 'show':
     xbmcplugin.setContent(addon_handle, 'episodes')
@@ -221,6 +227,7 @@ elif mode[0] == 'show':
         li = get_list_item(n)
         url = build_url({'mode': n.item_type, "id": n.media_id})
         xbmcplugin.addDirectoryItem(handle=addon_handle, url=url, listitem=li)
+    xbmcplugin.endOfDirectory(addon_handle)
 
 elif mode[0] == 'episode':
     media_id = args['id'][0]
@@ -229,5 +236,5 @@ elif mode[0] == 'episode':
         xbmcplugin.setResolvedUrl(int(sys.argv[1]), True, item)
     except ValueError as e:
         xbmcgui.Dialog().notification('Error occurred', str(e.message))
+    xbmcplugin.endOfDirectory(addon_handle)
 
-xbmcplugin.endOfDirectory(addon_handle, cacheToDisc=False)

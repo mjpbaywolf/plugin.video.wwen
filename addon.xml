@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="plugin.video.wwen"
        name="WWE Network"
-       version="2.0.0"
+       version="2.0.4"
        provider-name="bay_wolf">
   <requires>
     <import addon="xbmc.python" version="2.19.0"/>
