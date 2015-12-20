@@ -162,7 +162,10 @@ class Network:
                 temp.name = i['title']
                 temp.icon = i['thumbnails']['124x70']['src']
                 temp.thumbnail = i['thumbnails']['400x224']['src']
-                temp.fan_art = i['thumbnails']['1920x1080']['src']
+                if '1920x1080' in i['thumbnails']:
+                    temp.fan_art = i['thumbnails']['1920x1080']['src']
+                else:
+                    temp.fan_art = i['thumbnails']['1280x720']['src']
                 temp.media_id = i['key']
                 temp.air_date = i['userDate']
                 sections.append(temp)
@@ -176,7 +179,10 @@ class Network:
                 temp.name = i['title']
                 temp.icon = i['thumbnails']['124x70']['src']
                 temp.thumbnail = i['thumbnails']['400x224']['src']
-                temp.fan_art = i['thumbnails']['1920x1080']['src']
+                if '1920x1080' in i['thumbnails']:
+                    temp.fan_art = i['thumbnails']['1920x1080']['src']
+                else:
+                    temp.fan_art = i['thumbnails']['1280x720']['src']
                 temp.media_id = i['key']
                 temp.air_date = i['userDate']
                 sections.append(temp)
@@ -197,7 +203,10 @@ class Network:
                 temp.description = i['notes']
                 temp.icon = i['thumbnails']['124x70']['src']
                 temp.thumbnail = i['thumbnails']['400x224']['src']
-                temp.fan_art = i['thumbnails']['1920x1080']['src']
+                if '1920x1080' in i['thumbnails']:
+                    temp.fan_art = i['thumbnails']['1920x1080']['src']
+                else:
+                    temp.fan_art = i['thumbnails']['1280x720']['src']
                 temp.media_id = i['itemTags']['media_playback_id'][0]
                 temp.air_date = i['userDate']
                 temp.duration = self.get_length_in_seconds(i['duration'])
@@ -278,7 +287,10 @@ class Network:
                 temp.description = i['notes']
                 temp.icon = i['thumbnails']['124x70']['src']
                 temp.thumbnail = i['thumbnails']['400x224']['src']
-                temp.fan_art = i['thumbnails']['1920x1080']['src']
+                if '1920x1080' in i['thumbnails']:
+                    temp.fan_art = i['thumbnails']['1920x1080']['src']
+                else:
+                    temp.fan_art = i['thumbnails']['1280x720']['src']
                 temp.media_id = i['itemTags']['media_playback_id'][0]
                 temp.air_date = i['userDate']
                 temp.duration = self.get_length_in_seconds(i['duration'])
@@ -296,7 +308,10 @@ class Network:
                     temp.description = j['notes']
                     temp.icon = j['thumbnails']['124x70']['src']
                     temp.thumbnail = j['thumbnails']['400x224']['src']
-                    temp.fan_art = j['thumbnails']['1920x1080']['src']
+                    if '1920x1080' in j['thumbnails']:
+					    temp.fan_art = j['thumbnails']['1920x1080']['src']
+                    else:
+					    temp.fan_art = j['thumbnails']['1280x720']['src']
                     temp.media_id = j['itemTags']['media_playback_id'][0]
                     temp.air_date = j['userDate']
                     temp.duration = self.get_length_in_seconds(j['duration'])
@@ -321,7 +336,10 @@ class Network:
                 temp.description = i['episode']['notes']
                 temp.icon = i['episode']['thumbnails']['124x70']['src']
                 temp.thumbnail = i['episode']['thumbnails']['400x224']['src']
-                temp.fan_art = i['episode']['thumbnails']['1920x1080']['src']
+                if '1920x1080' in i['episode']['thumbnails']:
+                    temp.fan_art = i['episode']['thumbnails']['1920x1080']['src']
+                else:
+                    temp.fan_art = i['episode']['thumbnails']['1280x720']['src']
                 temp.media_id = i['episode']['itemTags']['media_playback_id'][0]
                 temp.air_date = i['episode']['itemTags']['air_date'][0]
                 temp.duration = self.get_length_in_seconds(i['episode']['duration'])
@@ -359,7 +377,10 @@ class Network:
                 temp.name = i['series']['title']
                 temp.icon = i['series']['thumbnails']['124x70']['src']
                 temp.thumbnail = i['series']['thumbnails']['400x224']['src']
-                temp.fan_art = i['series']['thumbnails']['1920x1080']['src']
+                if '1920x1080' in i['series']['thumbnails']:
+                    temp.fan_art = i['series']['thumbnails']['1920x1080']['src']
+                else:
+                    temp.fan_art = i['series']['thumbnails']['1280x720']['src']
                 temp.media_id = i['series']['itemTags']['show_name'][0]
                 watchlist.append(temp)
 
